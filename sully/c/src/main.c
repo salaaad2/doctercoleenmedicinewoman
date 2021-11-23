@@ -1,11 +1,31 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <stdlib.h>
 /*cool*/
 # define NEXT "Sully_%d.c"
-# define TEXT "#include <fcntl.h>%c#include <unistd.h>%c#include <stdio.h>%c/*cool*/%c# define COOLKID %cGrace_kid.c%c%c# define TEXT %c%s%c%c# define GRACE() int main(void) {int fd = open(COOLKID, O_RDWR | O_CREAT, 0644); dprintf(fd, TEXT, 10,10,10,10,34,34,10,34,TEXT,34,10,10,10); close(fd); return 0;}%cGRACE()%c"
+#define TEXT "#include <fcntl.h> %c#include <unistd.h> %c#include <stdio.h> %c#include <stdlib.h> %c\
+#define NEXT %cSully_%d.c%c%c \
+#define TEXT %c%s%c%c \
+int \
+main(void) \
+{ \
+    char name[96]; \
+    char buf[96]; \
+    int fd; \
+    int n = %d; \
+ \
+    sprintf(name, NEXT, (n - 1)); \
+    fd = open(name, O_RDWR | O_CREAT, 0644); \
+    dprintf(fd, TEXT, 10, 10, 10, 10, 34, (n - 1), 34, 10, 34, TEXT,34, 10, (n - 1), 34, NEXT, NEXT, NEXT, 34, 10); \
+    close(fd); \
+    sprintf(buf, %cclang ./%s -o %.7s ; ./%.7ss%c, name, name,name); \
+    system(buf); \
+    return 0; \
+}%c"
+
 int
-main(int ac, char *av[], char * envp[])
+main(void)
 {
     char name[96];
     char buf[96];
@@ -14,10 +34,9 @@ main(int ac, char *av[], char * envp[])
 
     sprintf(name, NEXT, (n - 1));
     fd = open(name, O_RDWR | O_CREAT, 0644);
-    dprintf(fd, TEXT, 10,10,10,10,34,34,10,34,TEXT,34,10,10,10);
+    dprintf(fd, TEXT, 10, 10, 10, 10, 34, (n - 1), 34, 10, 34, TEXT,34, 10, (n - 1), 34, NEXT, NEXT, NEXT, 34, 10);
     close(fd);
-    sprintf(buf, "clang ./%s -o Sully_4", name);
-    printf("%s\n", buf);
-    execve(buf, NULL, envp);
+    sprintf(buf, "clang ./%s -o %.7s ; ./%.7ss", name, name,name);
+    system(buf);
     return 0;
 }
