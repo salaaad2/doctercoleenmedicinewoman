@@ -84,7 +84,7 @@ clean:
 	${RM} ${OBJS_DIR} vgcore*
 #------------------------------------------------------------------------------#
 fclean: clean
-	${RM} ${NAME} ${NAME}.core ${NAME}.dSYM/ qwe minishell_history
+	${RM} ${NAME} ${NAME}.core ${NAME}.dSYM/ qwe minishell_history Grace_kid.c
 #------------------------------------------------------------------------------#
 re: fclean all
 #------------------------------------------------------------------------------#
