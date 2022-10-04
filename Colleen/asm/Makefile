@@ -20,9 +20,9 @@ RM=rm -rf
 
 # Set variables of compilations
 ASM=nasm
-ASMFLAGS= -felf64 -g
-CC=gcc
-CFLAGS= -Wall -Werror -Wextra -no-pie
+ASMFLAGS= -f macho64
+CC=clang
+CFLAGS= -Wall -Werror -Wextra 
 LDFLAGS=
 EXEC=Colleen
 VERBOSE=FALSE
