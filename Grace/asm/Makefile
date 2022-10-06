@@ -60,7 +60,7 @@ all: ${EXEC}
 # Creation of the executable
 $(EXEC): $(OBJS)
 	@echo Linking $@
-	$(HIDE)$(CC) $(CFLAGS) $(OBJS) -o $(EXEC)
+	$(CC) $(CFLAGS) $(OBJS) -o $(EXEC)
 
 # Include dependencies
 -include $(DEPS)
@@ -71,15 +71,15 @@ asan: CFLAGS += -fsanitize=address
 asan: directories all
 
 directories:
-	$(HIDE)$(MKDIR) $(BUILDDIR)
+	$(MKDIR) $(BUILDDIR)
 
 # Remove all objects
 clean:
-	$(HIDE)$(RM) $(wildcard $(BUILDDIR)/*.o)
+	$(RM) $(wildcard $(BUILDDIR)/*.o) Grace_kid.s
 
 # Remove all objects, dependencies and executable files generated during the build
 fclean:
-	$(HIDE)$(RM) $(BUILDDIR) $(EXEC) $(EXEC).dSYM
+	$(HIDE)$(RM) $(BUILDDIR) $(EXEC) $(EXEC).dSYM Grace_kid.s
 	@echo Cleaning done !
 
 re: fclean default

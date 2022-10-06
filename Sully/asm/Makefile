@@ -1,11 +1,8 @@
-# Colleen
+# Sully
 #
 # @file
 # @version 0.1
 
-
-
-# end
 # Set the project, sources and build directory
 SOURCEDIR=.
 INCDIR=.
@@ -60,7 +57,7 @@ all: ${EXEC}
 # Creation of the executable
 $(EXEC): $(OBJS)
 	@echo Linking $@
-	$(HIDE)$(CC) $(CFLAGS) $(OBJS) -o $(EXEC)
+	$(CC) $(CFLAGS) $(OBJS) -o $(EXEC)
 
 # Include dependencies
 -include $(DEPS)
@@ -71,15 +68,15 @@ asan: CFLAGS += -fsanitize=address
 asan: directories all
 
 directories:
-	$(HIDE)$(MKDIR) $(BUILDDIR)
+	$(MKDIR) $(BUILDDIR)
 
 # Remove all objects
 clean:
-	$(HIDE)$(RM) $(wildcard $(BUILDDIR)/*.o)
+	$(RM) $(wildcard $(BUILDDIR)/*.o) Sully_*
 
 # Remove all objects, dependencies and executable files generated during the build
 fclean:
-	$(HIDE)$(RM) $(BUILDDIR) $(EXEC) $(EXEC).dSYM
+	$(RM) $(BUILDDIR) $(EXEC) $(EXEC).dSYM Sully_*
 	@echo Cleaning done !
 
 re: fclean default
