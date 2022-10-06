@@ -5,19 +5,13 @@ extern sprintf
 extern close
 extern open
 extern system
-%define OPEN_FLAGS 66
-%define OPEN_PERMISSIONS 420
-%define CHAR_NEWLINE 10
-%define CHAR_QUOTE 34
-%define CHAR_PERCENT 37
 section .bss
 buf resb 256
 section .data
-buf2 db "echo cool", 0
 output db "verylongstrusedasoutput", 0
-command_str db "nasm -f elf64 %s; clang %.7s.o -o %.7s ; ./%.7s", 0
+command_str db "nasm -f elf64 %s ", 0
 file_str db "./Sully_%d.s", 0
-code_str db "; cool comment insert grace%c %c %s %c ", 0
+code_str db " %1$c  ret %4$d ", 0
 index dq 5
 section .text
 main:
@@ -33,18 +27,18 @@ main:
 
     xor rax, rax
     mov rdi, output
-    mov rsi, OPEN_FLAGS
-    mov rdx, OPEN_PERMISSIONS
+    mov rsi, 66
+    mov rdx, 420
     mov rax, 0
-    ;; open(output, O_RDWR | )
+    ;; open(output, O_RDWR |[...], 0644)
     call open
 
     mov rdi, rax
     lea rsi, [rel code_str]
-    mov rdx, CHAR_NEWLINE
-    mov rcx, CHAR_QUOTE
+    mov rdx, 10
+    mov rcx, 34
     lea r8, [rel code_str]
-    mov r9, CHAR_PERCENT
+    mov r9, [index]
     ;; dprintf(fd=3, code_str, \n, ", code_str, %)
     call dprintf
 
@@ -63,6 +57,7 @@ compile_and_run:
 
     xor rax, rax
     mov rdi, buf
+    ;; system(buf)
     call system
     xor rax, rax
     leave
