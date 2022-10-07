@@ -9,119 +9,62 @@ section .bss
 buf resb 256
 section .data
 output db "verylongstrusedasoutput", 0
-command_str db "nasm -f elf64 %1$s ; clang %.7s.o -o %1$.7s ; ./%1$.7s", 0
+command_str db "nasm -f elf64 %1$s ; clang %1$.7s.o -o %1$.7s ; ./%1$.7s ", 0
 file_str db "Sully_%d.s", 0
-code_str db " %1$c \
-; cool comment %1$c \
-global main %1$c \
-extern dprintf %1$c \
-extern sprintf %1$c \
-extern close %1$c \
-extern open %1$c \
-extern system %1$c \
-section .bss %1$c \
-buf resb 256 %1$c \
-section .data %1$c \
-output db %2$cverylongstrusedasoutput%2$c, 0 %1$c \
-command_str db %2$cnasm -f elf64 Sully_4.s ; clang Sully_4.o -o Sully_4 ; ./Sully_4%2$c, 0 %1$c \
-file_str db %2$cSully_%d.s%2$c, 0 %1$c \
-code_str db %2$c%3$s%2$c, 0 %1$c \
-index dq %4$d %1$c \
-section .text %1$c \
-main: %1$c \
-    ;;  new stack frame %1$c \
-    enter 0,0 %1$c \
-    dec qword [index] %1$c \
-    xor rax, rax %1$c \
-    lea rdi, output %1$c \
-    lea rsi, file_str %1$c \
-    mov rdx, [index] %1$c \
-    ;; sprintf(output, file_str, index) %1$c \
-    call sprintf %1$c \
- %1$c \
-    xor rax, rax %1$c \
-    mov rdi, output %1$c \
-    mov rsi, 66 %1$c \
-    mov rdx, 420 %1$c \
-    mov rax, 0 %1$c \
-    ;; open(output, O_RDWR |[...], 0644) %1$c \
-    call open %1$c \
- %1$c \
-    mov rdi, rax %1$c \
-    lea rsi, [rel code_str] %1$c \
-    mov rdx, 10 %1$c \
-    mov rcx, 34 %1$c \
-    lea r8, [rel code_str] %1$c \
-    mov r9, [index] %1$c \
-    call dprintf %1$c \
- %1$c \
-    xor rax, rax %1$c \
-    cmp qword [index], 0 %1$c \
-    jne compile_and_run %1$c \
-    leave %1$c \
-    ret %1$c \
- %1$c \
-compile_and_run: %1$c \
-    mov rdi, buf %1$c \
-    mov rsi, command_str %1$c \
-    mov rdx, output %1$c \
-    ;; sprintf(buf, command_str, output) %1$c \
-    call sprintf %1$c \
- %1$c \
-    xor rax, rax %1$c \
-    mov rdi, buf %1$c \
-    ;; system(buf) %1$c \
-    call system %1$c \
-    xor rax, rax %1$c \
-    leave %1$c \
-    ret", 0
+code_str db "; cool comment%1$cglobal main%1$cextern dprintf%1$cextern sprintf%1$cextern close%1$cextern open%1$cextern system%1$csection .bss%1$cbuf resb 256%1$csection .data%1$coutput db %2$cverylongstrusedasoutput%2$c, 0%1$ccommand_str db %2$cnasm -f elf64 %5$c1$s ; clang %5$c1$.7s.o -o %5$c1$.7s ; ./%5$c1$.7s %2$c, 0%1$cfile_str db %2$cSully_%5$cd.s%2$c, 0%1$ccode_str db %2$c%3$s%2$c, 0%1$cindex dq %4$d%1$csection .text%1$cmain:%1$c;;  new stack frame%1$center 0,0%1$cdec qword [index]%1$cxor rax, rax%1$clea rdi, output%1$clea rsi, file_str%1$cmov rdx, [index]%1$c;; sprintf(output, file_str, index)%1$ccall sprintf%1$c%1$cpush rbp%1$cmov rbp, rsp%1$cpush 37%1$cxor rax, rax%1$cmov rdi, output%1$cmov rsi, 66%1$cmov rdx, 420%1$cmov rax, 0%1$c;; open(output, O_RDWR |[...], 0644)%1$ccall open%1$c%1$cmov rdi, rax%1$clea rsi, [rel code_str]%1$cmov rdx, 10%1$cmov rcx, 34%1$clea r8, [rel code_str]%1$cmov r9, [index]%1$c;; dprintf(fd=3, code_str, \n, %2$c, code_str)%1$ccall dprintf%1$c%1$cxor rax, rax%1$ccmp qword [index], 0%1$cjge compile_and_run%1$cleave%1$cxor rax, rax%1$cadd rsp, 8%1$cret%1$c%1$ccompile_and_run:%1$cmov rdi, buf%1$cmov rsi, command_str%1$cmov rdx, output%1$c;; sprintf(buf, command_str, output)%1$ccall sprintf%1$c%1$cxor rax, rax%1$cmov rdi, buf%1$c;; system(buf)%1$ccall system%1$cleave%1$cxor rax, rax%1$cadd rsp, 8%1$cret%1$c", 0
 index dq 5
 section .text
 main:
-    ;;  new stack frame
-    enter 0,0
-    dec qword [index]
-    xor rax, rax
-    lea rdi, output
-    lea rsi, file_str
-    mov rdx, [index]
-    ;; sprintf(output, file_str, index)
-    call sprintf
+;;  new stack frame
+enter 0,0
+dec qword [index]
+xor rax, rax
+lea rdi, output
+lea rsi, file_str
+mov rdx, [index]
+;; sprintf(output, file_str, index)
+call sprintf
 
-    xor rax, rax
-    mov rdi, output
-    mov rsi, 66
-    mov rdx, 420
-    mov rax, 0
-    ;; open(output, O_RDWR |[...], 0644)
-    call open
+push rbp
+mov rbp, rsp
+push 37
+xor rax, rax
+mov rdi, output
+mov rsi, 66
+mov rdx, 420
+mov rax, 0
+;; open(output, O_RDWR |[...], 0644)
+call open
 
-    mov rdi, rax
-    lea rsi, [rel code_str]
-    mov rdx, 10
-    mov rcx, 34
-    lea r8, [rel code_str]
-    mov r9, [index]
-    ;; dprintf(fd=3, code_str, \n, ", code_str, %)
-    call dprintf
+mov rdi, rax
+lea rsi, [rel code_str]
+mov rdx, 10
+mov rcx, 34
+lea r8, [rel code_str]
+mov r9, [index]
+;; dprintf(fd=3, code_str, \n, ", code_str)
+call dprintf
 
-    xor rax, rax
-    cmp qword [index], 0
-    jne compile_and_run
-    leave
-    ret
+xor rax, rax
+cmp qword [index], 0
+jge compile_and_run
+leave
+xor rax, rax
+add rsp, 8
+ret
 
 compile_and_run:
-    mov rdi, buf
-    mov rsi, command_str
-    mov rdx, output
-    ;; sprintf(buf, command_str, output)
-    call sprintf
+mov rdi, buf
+mov rsi, command_str
+mov rdx, output
+;; sprintf(buf, command_str, output)
+call sprintf
 
-    xor rax, rax
-    mov rdi, buf
-    ;; system(buf)
-    call system
-    xor rax, rax
-    leave
-    ret
+xor rax, rax
+mov rdi, buf
+;; system(buf)
+call system
+leave
+xor rax, rax
+add rsp, 8
+ret
