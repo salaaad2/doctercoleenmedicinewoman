@@ -21,7 +21,7 @@ RM=rm -rf
 # Set variables of compilations
 ASM=nasm
 ASMFLAGS= -f elf64 -g
-CC=clang
+CC=gcc
 CFLAGS= -Wall -Werror -Wextra -no-pie
 LDFLAGS=
 EXEC=Grace

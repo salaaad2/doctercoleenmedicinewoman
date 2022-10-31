@@ -21,7 +21,7 @@ RM=rm -rf
 # Set variables of compilations
 ASM=nasm
 ASMFLAGS= -f macho64
-CC=clang
+CC=gcc
 CFLAGS= -Wall -Werror -Wextra 
 LDFLAGS=
 EXEC=Colleen

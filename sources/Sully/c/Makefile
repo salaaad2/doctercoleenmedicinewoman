@@ -26,7 +26,7 @@ ifeq (${OS}, FreeBSD)
 CC				 = cc
 endif
 ifeq (${OS}, Linux)
-CC				 = clang
+CC				 = gcc
 endif
 ifeq (${OS}, Darwin)
 CC				 = cc
