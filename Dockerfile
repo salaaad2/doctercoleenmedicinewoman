@@ -5,7 +5,7 @@ RUN mkdir -p /opt/ft_ping/
 
 RUN apk update && apk upgrade
 
-RUN apk add --no-cache bash make cmake alpine-sdk strace
+RUN apk add --no-cache bash make cmake alpine-sdk strace nasm
 
 WORKDIR /opt/quine
 
